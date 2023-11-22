@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
+    <title>Dancing Welcome Sign</title>
     <style>
         body {
             display: flex;
@@ -13,96 +13,87 @@
             height: 100vh;
             margin: 0;
             background: #222;
-            overflow: hidden;
+            perspective: 1000px;
         }
 
-        #pong {
-            position: relative;
-            background: #fff;
-            width: 600px;
-            height: 400px;
+        .welcome {
+            font-size: 3em;
+            font-family: 'Arial', sans-serif;
+            color: #3498db;
+            display: inline-block;
+            transform-style: preserve-3d;
+            animation: dance 3s infinite alternate;
         }
 
-        .paddle {
-            position: absolute;
-            width: 20px;
-            height: 100px;
-            background: #3498db;
+        .letter {
+            display: inline-block;
+            transform-origin: center;
+            transform-style: preserve-3d;
         }
 
-        #leftPaddle {
-            left: 0;
-        }
-
-        #rightPaddle {
-            right: 0;
-        }
-
-        .ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #e74c3c;
-            border-radius: 50%;
-            animation: moveBall 1s linear infinite;
-        }
-
-        @keyframes moveBall {
+        @keyframes dance {
             0%, 100% {
-                transform: translate(0, 0);
+                transform: rotateX(0) rotateY(0) rotateZ(0);
+            }
+            25% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
             }
             50% {
-                transform: translate(200px, 200px);
+                transform: rotateX(0) rotateY(0) rotateZ(0);
+            }
+            75% {
+                transform: rotateX(-360deg) rotateY(-360deg) rotateZ(-360deg);
             }
         }
 
-        #score {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 24px;
-            color: #fff;
+        /* Adjust individual letters' positions and rotations */
+        .letter:nth-child(1) {
+            animation: letterDance 3s infinite alternate;
+        }
+
+        .letter:nth-child(2) {
+            animation: letterDance 3s infinite alternate-reverse;
+        }
+
+        .letter:nth-child(3) {
+            animation: letterDance 3s infinite alternate;
+        }
+
+        .letter:nth-child(4) {
+            animation: letterDance 3s infinite alternate-reverse;
+        }
+
+        .letter:nth-child(5) {
+            animation: letterDance 3s infinite alternate;
+        }
+
+        @keyframes letterDance {
+            0%, 100% {
+                transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0);
+            }
+            25% {
+                transform: translate3d(0, 20px, 0) rotateX(45deg) rotateY(45deg) rotateZ(45deg);
+            }
+            50% {
+                transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0);
+            }
+            75% {
+                transform: translate3d(0, -20px, 0) rotateX(-45deg) rotateY(-45deg) rotateZ(-45deg);
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id="pong">
-        <div id="leftPaddle" class="paddle"></div>
-        <div id="rightPaddle" class="paddle"></div>
-        <div class="ball"></div>
-        <div id="score">0 - 0</div>
+    <div class="welcome">
+        <span class="letter">W</span>
+        <span class="letter">e</span>
+        <span class="letter">l</span>
+        <span class="letter">c</span>
+        <span class="letter">o</span>
+        <span class="letter">m</span>
+        <span class="letter">e</span>
     </div>
-
-    <script>
-        let leftScore = 0;
-        let rightScore = 0;
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'ArrowUp') {
-                movePaddle('rightPaddle', -20);
-            } else if (event.key === 'ArrowDown') {
-                movePaddle('rightPaddle', 20);
-            } else if (event.key === 'ArrowLeft') {
-                movePaddle('leftPaddle', -20);
-            } else if (event.key === 'ArrowRight') {
-                movePaddle('leftPaddle', 20);
-            }
-        });
-
-        function movePaddle(paddleId, offset) {
-            const paddle = document.getElementById(paddleId);
-            const currentTop = parseInt(window.getComputedStyle(paddle).top);
-            paddle.style.top = (currentTop + offset) + 'px';
-        }
-
-        function updateScore() {
-            document.getElementById('score').innerText = `${leftScore} - ${rightScore}`;
-        }
-
-        // Voeg hier logica toe voor het bewegen van de bal en het bijwerken van de score
-    </script>
 </body>
 
 </html>
